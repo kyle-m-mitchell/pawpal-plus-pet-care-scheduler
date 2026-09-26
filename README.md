@@ -1,48 +1,31 @@
-# PawPal+ (Module 2 Project)
+# PawPal+ Pet Care Scheduler
 
-You are building **PawPal+**, a Streamlit app that helps a pet owner plan care tasks for their pet.
+PawPal+ is a Python and Streamlit app that helps a pet owner organize recurring care tasks and build a daily plan around time, priority, and availability. I extended a CodePath AI110 starter with object-oriented task models, persistence, conflict detection, scheduling strategies, and automated tests.
 
-## Scenario
+## What I built
 
-A busy pet owner needs help staying consistent with pet care. They want an assistant that can:
+- Track pets, care tasks, due dates, flexible time windows, recurrence, completion, and owner availability.
+- Detect overlapping tasks and explain conflicts before planning.
+- Build a daily plan with greedy rescheduling, or use weighted interval scheduling when the day cannot fit every fixed task.
+- Save user-entered data locally to `data.json` and preview future recurring tasks.
+- Use the Streamlit interface or the command-line demo in `main.py`.
 
-- Track pet care tasks (walks, feeding, meds, enrichment, grooming, etc.)
-- Consider constraints (time available, priority, owner preferences)
-- Produce a daily plan and explain why it chose that plan
-
-Your job is to design the system first (UML), then implement the logic in Python, then connect it to the Streamlit UI.
-
-## What you will build
-
-Your final app should:
-
-- Let a user enter basic owner + pet info
-- Let a user add/edit tasks (duration + priority at minimum)
-- Generate a daily schedule/plan based on constraints and priorities
-- Display the plan clearly (and ideally explain the reasoning)
-- Include tests for the most important scheduling behaviors
-
-## Getting started
-
-### Setup
+## Run locally
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m streamlit run app.py
 ```
 
-### Suggested workflow
+Run the command-line demo with `python main.py` and the tests with `python -m pytest -q`. Data is stored in a local JSON file; this project is a demo, not a hosted multi-user service.
 
-1. Read the scenario carefully and identify requirements and edge cases.
-2. Draft a UML diagram (classes, attributes, methods, relationships).
-3. Convert UML into Python class stubs (no logic yet).
-4. Implement scheduling logic in small increments.
-5. Add tests to verify key behaviors.
-6. Connect your logic to the Streamlit UI in `app.py`.
-7. Refine UML so it matches what you actually built.
+## Project origin
 
-## Features
+This repository began as a [CodePath AI110 PawPal+ starter](https://github.com/codepath/ai110-module2show-pawpal-starter). The original scenario and starter structure came from CodePath. The implemented scheduling, recurrence, persistence, interface, and tests in this fork show my extension of that assignment.
+
+## Detailed feature notes
 
 - **Pet and task tracking:** Create an owner profile, add pets, and attach care tasks with due dates, start times, duration, frequency, priority, completion status, flexible scheduling windows, and buffer time.
 - **JSON persistence:** PawPal+ saves the owner, pets, tasks, completion state, recurrence anchors, buffers, and availability windows to `data.json` so they are still there after the app restarts.
@@ -96,26 +79,6 @@ python3 -m pytest
 pytest --cov
 ```
 
-Sample test output:
-
-```
-% python3 -m pytest
-============ test session starts ============
-platform darwin -- Python 3.14.5, pytest-9.0.3, pluggy-1.6.0
-rootdir: /Users/kylemitchell/ai110-module2show-pawpal-starter
-plugins: anyio-4.13.0
-collected 57 items                          
-
-tests/test_edge_cases.py .......................                         [ 40%]
-tests/test_pawpal.py ..................................                  [100%]
-
-============ 57 passed in 0.18s =============
-```
-
-**Reliability Confidence Level (1-5)**
-5
-
-
 ## 📐 Smarter Scheduling
 
 How each behavior works today (see [`pawpal_system.py`](pawpal_system.py)):
@@ -131,7 +94,7 @@ How each behavior works today (see [`pawpal_system.py`](pawpal_system.py)):
 ### ✅ Smarter-scheduling upgrades (all shipped)
 
 Each upgrade is *what was too simple → the algorithm → cost → why it helps a pet owner*.
-Test count grew from 10 → 29 as these landed.
+The tests cover the scheduler behaviors described below.
 
 **Tier 1 — biggest payoff**
 
@@ -271,3 +234,5 @@ Buffered plan
 | 10:50 AM | Mochi | 🍽️ Feed     | low 1    | moved from 10:30 AM |
 +----------+-------+-------------+----------+---------------------+
 ```
+
+
